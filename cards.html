@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      .card
+      {
+        width: 62px;
+        height: 84px;
+        border-radius: 7px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        padding: 0px;
+        position: relative;
+        position: absolute;
+        margin: 2px;
+        text-align: center;
+        display: inline-block;
+        user-select: none;
+      }
+      .inner{
+        position: absolute;
+        left: -8px;
+        top: -5px;
+        font-size:115px;
+        line-height:105px;
+        pointer-events: none;
+      }
+      .red{
+        color: #a00;
+      }
+      .black{
+        color: #000;
+      }
+      .green{
+        color: #080;
+      }
+      .back
+      {
+        background: #008;
+        color: #55a;
+        
+      }
+      #pack{
+        width: 1250px;
+        height: 700px;
+        background: #080;
+      }
+  
+    </style>
+  </head>
+<body>
+<div id="pack">
+
+  
+</div>
+<script>
+var cards=[];
+var card_back="&#127136;";
+
+cards.push({char:"&#127150;",desc: "king of spades",col: "black"});
+cards.push({char:"&#127149;",desc: "queen of spades",col: "black"});
+cards.push({char:"&#127147;",desc: "jack of spades",col: "black"});
+cards.push({char:"&#127146;",desc: "10 of spades",col: "black"});
+cards.push({char:"&#127145;",desc: "9 of spades",col: "black"});
+cards.push({char:"&#127144;",desc: "8 of spades",col: "black"});
+cards.push({char:"&#127143;",desc: "7 of spades",col: "black"});
+cards.push({char:"&#127142;",desc: "6 of spades",col: "black"});
+cards.push({char:"&#127141;",desc: "5 of spades",col: "black"});
+cards.push({char:"&#127140;",desc: "4 of spades",col: "black"});
+cards.push({char:"&#127139;",desc: "3 of spades",col: "black"});
+cards.push({char:"&#127138;",desc: "2 of spades",col: "black"});
+cards.push({char:"&#127137;",desc: "ace of spades",col: "black"});
+
+cards.push({char:"&#127166;",desc: "king of hearts",col: "red"});
+cards.push({char:"&#127165;",desc: "queen of hearts",col: "red"});
+cards.push({char:"&#127163;",desc: "jack of hearts",col: "red"});
+cards.push({char:"&#127162;",desc: "10 of hearts",col: "red"});
+cards.push({char:"&#127161;",desc: "9 of hearts",col: "red"});
+cards.push({char:"&#127160;",desc: "8 of hearts",col: "red"});
+cards.push({char:"&#127159;",desc: "7 of hearts",col: "red"});
+cards.push({char:"&#127158;",desc: "6 of hearts",col: "red"});
+cards.push({char:"&#127157;",desc: "5 of hearts",col: "red"});
+cards.push({char:"&#127156;",desc: "4 of hearts",col: "red"});
+cards.push({char:"&#127155;",desc: "3 of hearts",col: "red"});
+cards.push({char:"&#127154;",desc: "2 of hearts",col: "red"});
+cards.push({char:"&#127153;",desc: "ace of hearts",col: "red"});
+
+cards.push({char:"&#127198;",desc: "king of clubs",col: "black"});
+cards.push({char:"&#127197;",desc: "queen of clubs",col: "black"});
+cards.push({char:"&#127196;",desc: "jack of clubs",col: "black"});
+cards.push({char:"&#127194;",desc: "10 of clubs",col: "black"});
+cards.push({char:"&#127193;",desc: "9 of clubs",col: "black"});
+cards.push({char:"&#127192;",desc: "8 of clubs",col: "black"});
+cards.push({char:"&#127191;",desc: "7 of clubs",col: "black"});
+cards.push({char:"&#127190;",desc: "6 of clubs",col: "black"});
+cards.push({char:"&#127189;",desc: "5 of clubs",col: "black"});
+cards.push({char:"&#127188;",desc: "4 of clubs",col: "black"});
+cards.push({char:"&#127187;",desc: "3 of clubs",col: "black"});
+cards.push({char:"&#127186;",desc: "2 of clubs",col: "black"});
+cards.push({char:"&#127185;",desc: "ace of clubs",col: "black"});
+
+cards.push({char:"&#127182;",desc: "king of diamonds",col: "red"});
+cards.push({char:"&#127181;",desc: "queen of diamonds",col: "red"});
+cards.push({char:"&#127180;",desc: "jack of diamonds",col: "red"});
+cards.push({char:"&#127178;",desc: "10 of diamonds",col: "red"});
+cards.push({char:"&#127177;",desc: "9 of diamonds",col: "red"});
+cards.push({char:"&#127176;",desc: "8 of diamonds",col: "red"});
+cards.push({char:"&#127175;",desc: "7 of diamonds",col: "red"});
+cards.push({char:"&#127174;",desc: "6 of diamonds",col: "red"});
+cards.push({char:"&#127173;",desc: "5 of diamonds",col: "red"});
+cards.push({char:"&#127172;",desc: "4 of diamonds",col: "red"});
+cards.push({char:"&#127171;",desc: "3 of diamonds",col: "red"});
+cards.push({char:"&#127170;",desc: "2 of diamonds",col: "red"});
+cards.push({char:"&#127169;",desc: "ace of diamonds",col: "red"});
+
+cards.push({char:"&#127199;",desc: "joker",col: "red"});
+cards.push({char:"&#127199;",desc: "joker",col: "red"});
+cards.push({char:"&#127199;",desc: "joker",col: "black"});
+cards.push({char:"&#127199;",desc: "joker",col: "black"});
+
+var pointer={x:0,y:0,down:false,dragging:null,nr:-1};
+
+window.addEventListener("keydown", handleKeys);
+
+for(var i=0;i<cards.length;i++)
+{
+  var card=document.createElement("div");
+  card.className="card";
+  card.id=i;
+  card.setAttribute("title",cards[i].desc);
+  cards[i].x=10+i%13*20;
+  cards[i].y=Math.floor(i/13)*50;
+  cards[i].z=i;
+  card.style.left=cards[i].x+"px";
+  card.style.top=cards[i].y+"px";
+  card.style.zIndex=cards[i].z;
+  card.addEventListener("pointerdown",handlePointer);
+  card.addEventListener("pointerup",handlePointer);
+  document.body.addEventListener("pointermove",handlePointer);
+  card.innerHTML="<div class='inner "+cards[i].col+"'>"+cards[i].char+"</div><div class='back inner'>&#127136;</div>";
+  document.getElementById("pack").appendChild(card);
+}
+// read the hash
+var json=atob(location.hash.substr(1));
+var data=JSON.parse(json);
+for(var i=0;i<data.cards.length;i++)
+{
+  cards[i].x=data.cards[i].x;
+  cards[i].y=data.cards[i].y;
+  cards[i].z=data.cards[i].z;
+  if(data.cards[i].o==1)
+  {
+    var card=document.getElementById(i);
+    var back=card.getElementsByClassName("back")[0];
+    back.style.display="none";
+  }
+  var card=document.getElementById(i);
+  card.style.left=cards[i].x+"px";
+  card.style.top=cards[i].y+"px";
+  card.style.zIndex=cards[i].z;
+}
+
+function setHash()
+{
+  var data={};
+  data.cards=[];
+  for(var i=0;i<cards.length;i++)
+  {
+    var open=0;
+    var card=document.getElementById(i);
+    var back=card.getElementsByClassName("back")[0];
+    if(back.style.display=="none")
+    {
+        open=1;
+    }
+    data.cards[i]={
+        x:cards[i].x,
+        y:cards[i].y,
+        o: open,
+        z: cards[i].z
+    };
+  }
+  var str=JSON.stringify(data);
+  var hash=btoa(str);
+  location.hash=hash;
+}
+function hussle(a,b)
+{
+  if(Math.random()<0.5) return 1;
+  return -1
+}
+function handleKeys(ev)
+{
+  switch(ev.keyCode)
+  {
+    case 72: //h
+      var hus=[];
+      for(var i=0;i<cards.length;i++)
+      {
+        hus.push(i);
+      }
+      hus.sort(hussle);
+      
+      for(var i=0;i<cards.length;i++)
+      {
+        var card=document.getElementById(hus[i]);
+        cards[hus[i]].x=10+i%13*20;
+        cards[hus[i]].y=Math.floor(i/13)*50;
+        cards[hus[i]].z=i;
+        card.style.left=cards[hus[i]].x+"px";
+        card.style.top=cards[hus[i]].y+"px";
+        card.style.zIndex=cards[hus[i]].z;
+      }
+    break;
+    case 83: //s
+      // save to hash
+      setHash();
+      
+    break;
+  }
+}
+function putCardOnTop(card)
+{
+  var nr=Number(card.id);
+  var z=cards[nr].z;
+  for(var i=0;i<cards.length;i++)
+  {
+    if(cards[i].z>z) cards[i].z--;
+  }
+  cards[nr].z=cards.length-1;
+
+  for(var i=0;i<cards.length;i++)
+  {
+    document.getElementById(""+i).style.zIndex=cards[i].z;
+  }
+}
+function handlePointer(ev)
+{
+  switch(ev.type)
+  {
+    case "pointerdown":
+      var card=ev.currentTarget;
+      var nr=Number(ev.currentTarget.id);
+      var data=cards[nr];
+      putCardOnTop(card);
+      pointer.down=true;
+      pointer.ox=ev.clientX;
+      pointer.oy=ev.clientY;
+      pointer.dragX=card.style.top;
+      pointer.dragY=card.style.left;
+      pointer.x=ev.clientX;
+      pointer.y=ev.clientY;
+      pointer.dragging=card;
+      pointer.nr=nr;
+      setHash();
+    break;
+    case "pointerup":
+      pointer.down=false;
+      if(pointer.ox==ev.clientX && pointer.oy==ev.clientY)
+      {
+          // user didn´t move is click
+          // so flip card
+          var back=pointer.dragging.getElementsByClassName("back")[0];
+          if(back.style.display=="none") back.style.display="block";
+          else back.style.display="none";
+      }
+      pointer.dragging=null;
+      pointer.nr=-1;
+      setHash();
+
+    break;
+    case "pointermove":
+      if(pointer.dragging!=null)
+      {
+        data=cards[pointer.nr];
+        data.x+=ev.clientX-pointer.x;
+        data.y+=ev.clientY-pointer.y;
+        pointer.x=ev.clientX;
+        pointer.y=ev.clientY;
+        pointer.dragging.style.left=data.x+"px";
+        pointer.dragging.style.top=data.y+"px";
+      }
+    break;
+  }
+}
+</script>
+</body>
+</html>
